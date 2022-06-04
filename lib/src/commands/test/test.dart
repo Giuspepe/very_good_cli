@@ -80,6 +80,10 @@ class TestCommand extends Command<int> {
         help: 'The seed to randomize the execution order of test cases '
             'within test files.',
       )
+      ..addOption(
+        'dart-define',
+        help: 'Dart define',
+      )
       ..addFlag(
         'update-goldens',
         help: 'Whether "matchesGoldenFile()" calls within your test methods '
@@ -134,6 +138,7 @@ This command should be run from the root of your Flutter project.''',
         : randomOrderingSeed;
     final optimizePerformance = _argResults['optimization'] as bool;
     final updateGoldens = _argResults['update-goldens'] as bool;
+    final dartDefine = _argResults['dart-define'] as String?;
 
     if (isFlutterInstalled) {
       try {
@@ -151,6 +156,7 @@ This command should be run from the root of your Flutter project.''',
           arguments: [
             if (excludeTags != null) ...['-x', excludeTags],
             if (updateGoldens) '--update-goldens',
+            if (dartDefine != null) '--dart-define=$dartDefine',
             ...['-j', concurrency],
             '--no-pub',
             ..._argResults.rest,
